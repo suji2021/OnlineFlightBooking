@@ -10,6 +10,6 @@ public interface BookingDao {
 	public List<Booking> getAllBookings();
 	public Booking newBooking(Booking booking)throws BookingAlreadyExistsException;
 	public void cancelBooking(long bookingId)throws BookingNotFoundException;
-	public Booking findByBookingId(long bookingId);
+	public Booking findByBookingId(long bookingId) throws BookingNotFoundException;
 	
 }

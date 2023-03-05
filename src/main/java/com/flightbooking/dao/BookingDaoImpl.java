@@ -40,8 +40,15 @@ public class BookingDaoImpl implements BookingDao {
 		
 	}
 
-	public Booking findByBookingId(long bookingId) {
-		return this.repository.getOne(bookingId);
+	public Booking findByBookingId(long bookingId)throws BookingNotFoundException {
+		Booking book;
+		if(repository.findById(bookingId).isEmpty()) {
+			throw new BookingNotFoundException();
+		}
+		else {
+			book= repository.findById(bookingId).get();
+		}
+		return book;
 	}
 	
 }

@@ -46,43 +46,39 @@ public class UserController {
 	
 	//user part
 	
-	// Post mapping request for registering the user and his/her details
+	
 	@PostMapping("/registerUser")
 	public ResponseEntity<User> registerUser(@RequestBody User user) {
 		User usr= this.userDao.registerUser(user);
 		return new ResponseEntity<>(usr, HttpStatus.CREATED);
 	}
 	
-	//Post mapping request for login to check credentials
+	
 	@PostMapping("/loginUser")
 	public String loginUser(@RequestBody User user) throws UserNotFoundException{
 		return this.userDao.loginUser(user);
 	}
 	
-	//Put mapping request updating the details of the user
+	
 	@PutMapping("/updateUser/{userId}")
 	public User updateUser(@RequestBody User user, @PathVariable long userId) throws UserNotFoundException{
 		return this.userDao.updateUser(user,userId);
 	}
 	
-	//Delete mapping request for deleting the account of user
+	
 	@DeleteMapping("/deleteUser/{userId}")
 	public ResponseEntity<String> deleteUser(@PathVariable long userId)throws UserNotFoundException {
 		this.userDao.deleteUser(userId);
 		return new ResponseEntity<>("User Deleted", HttpStatus.OK);
 	}
 	
-	//Get mapping request to get the user details by giving the id
+	
 	@GetMapping("/getUserById/{userId}")
 	public User getUserById(@PathVariable long userId) throws UserNotFoundException {
 		return this.userDao.getUserById(userId);
 	}
 	
-	//to get the list of users
-	@GetMapping("/getAllUsers")
-	public List<User> getAllUsers() {
-		return this.userDao.getAllUsers();
-	}
+	
 	
 	
 	//booking
@@ -102,11 +98,12 @@ public class UserController {
 	}
 	
 	@GetMapping("/findByBookingId/{bookingId}")
-	public Booking findByBookingId(@PathVariable long bookingId ){
+	public Booking findByBookingId(@PathVariable long bookingId ) throws BookingNotFoundException{
 		return this.bookingDao.findByBookingId(bookingId);
 	
 }
 	//flight
+	
 	@GetMapping("/getAllFlights")
 	public List<Flight> getAllFlights() {
 		return this.flightDao.getAllFlights();

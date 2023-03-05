@@ -21,15 +21,23 @@ public class FlightDaoImpl implements FlightDao {
 	}
 
 	
-	public Flight updateFlight(Flight flight) {
-		return repository.save(flight);
+	public Flight updateFlight(Flight flight, long flightId ) throws FlightNotFoundException {
+		Flight u =repository.findById(flightId).get();
+		if(u==null) {
+			throw new FlightNotFoundException();
+		}		
+		
+		u.setDepartureDate(flight.getDepartureDate());
+		u.setArrivalDate(flight.getArrivalDate());
+		u.setAvailableSeats(flight.getAvailableSeats());
+		return this.repository.save(u);
 	}
 
 	public List<Flight> getAllFlights() {
 		return repository.findAll();
 	}
 
-	@Override
+	
 	public Flight getFlightById(long flightId) throws FlightNotFoundException {
 		Flight flt;
 		if(repository.findById(flightId).isEmpty()) {

@@ -24,6 +24,9 @@ public class GlobalExceptionHandler {
 	@Value(value="${message5}")
 	private String message5;
 	
+	@Value(value="${message6}")
+	private String message6;
+	
 	@ExceptionHandler(value=BookingAlreadyExistsException.class)
 	public ResponseEntity<String>  bookingAlreadyExistsException(BookingAlreadyExistsException ex) {
 		return new ResponseEntity<>(message1,HttpStatus.ALREADY_REPORTED);
@@ -47,5 +50,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value=UserNotFoundException.class)
 	public ResponseEntity<String>  UserNotFoundException(UserNotFoundException ex) {
 		return new ResponseEntity<>(message5,HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler(value=AirportNotFoundException.class)
+	public ResponseEntity<String>  AirportNotFoundException(AirportNotFoundException ex) {
+		return new ResponseEntity<>(message6,HttpStatus.CONFLICT);
 	}
 }

@@ -7,7 +7,7 @@ import com.flightbooking.model.Flight;
 
 public interface FlightDao {
 	public Flight addFlight(Flight flight);
-	public Flight updateFlight(Flight flight);
+	public Flight updateFlight(Flight flight, long flightId)throws FlightNotFoundException;
 	public List<Flight> getAllFlights();
 	public Flight getFlightById(long flightId) throws FlightNotFoundException;
 	

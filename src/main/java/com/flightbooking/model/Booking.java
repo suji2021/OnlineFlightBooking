@@ -3,6 +3,7 @@ package com.flightbooking.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -49,16 +51,20 @@ public class Booking {
 	@Column(name="passenger_mobile")
 	private long passengerMobile;
 	
+	//many bookings can be done by one user
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	@JsonIgnoreProperties({"userName", "password","dob","bookings"})
+	private User user;
+	
+	
 	@ManyToOne 
 	@JoinColumn(name="flight_id")
 	private Flight flight;
 	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	@JsonIgnoreProperties({"userName", "password","dob"})
-	private User user;
 	
-	@OneToMany(mappedBy="bookings")
+	@OneToMany(mappedBy="bookings", cascade=CascadeType.ALL)
+	@JsonIgnore  
 	private List<Ticket> tickets;
 
 }

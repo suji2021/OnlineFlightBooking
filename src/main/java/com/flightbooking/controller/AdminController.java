@@ -20,6 +20,7 @@ import com.flightbooking.dao.BookingDao;
 import com.flightbooking.dao.FlightDao;
 import com.flightbooking.dao.TicketDao;
 import com.flightbooking.dao.UserDao;
+import com.flightbooking.exception.AirportNotFoundException;
 import com.flightbooking.exception.FlightNotFoundException;
 import com.flightbooking.exception.InvalidAdminException;
 import com.flightbooking.model.Admin;
@@ -78,8 +79,8 @@ public class AdminController {
 
 		
 		@PutMapping("/updateAirport/{airportId}")
-		public Airport updateAirport(@RequestBody Airport airport) {
-			return this.airportDao.updateAirport(airport);
+		public Airport updateAirport(@RequestBody Airport airport, @PathVariable long airportId) throws AirportNotFoundException {
+			return this.airportDao.updateAirport(airport, airportId);
 		}
 		
 
@@ -93,8 +94,8 @@ public class AdminController {
 	}
 	
 	@PutMapping("/updateFlight/{fightId}")
-	public Flight updateFlight(@RequestBody Flight flight) {
-		return this.flightDao.updateFlight(flight);
+	public Flight updateFlight(@RequestBody Flight flight, @PathVariable long flightId) throws FlightNotFoundException {
+		return this.flightDao.updateFlight(flight,flightId);
 	}
 	
 	@GetMapping("/getAllFlights")
@@ -133,10 +134,11 @@ public class AdminController {
 			return this.dao.findAllTickets();
 		}
 		
-		@DeleteMapping("/cancelTicket")
-		public void cancelTicket(@PathVariable int ticketId) {
+		@DeleteMapping("/cancelTicket/{ticketId}")
+		public ResponseEntity<String> cancelTicket(@PathVariable int ticketId) {
 			this.dao.getTicketById(ticketId);
 			this.dao.cancelTicket(ticketId);
+			return new ResponseEntity<>("Cancelled Successfully",HttpStatus.OK);
 		}
 		
 }
